@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D1D88CCE-7067-4E02-8FBC-3EF449E0A81C</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Flight to Rio</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>120E0C897A1B6D1011AEF04309DFDA4EDCD134C0</key>
+		<string>https://github.com/Ravar33/Flight-to-Rio.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>flight_to_rio/platforms/ios/Flight to Rio.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>120E0C897A1B6D1011AEF04309DFDA4EDCD134C0</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Ravar33/Flight-to-Rio.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>120E0C897A1B6D1011AEF04309DFDA4EDCD134C0</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>120E0C897A1B6D1011AEF04309DFDA4EDCD134C0</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Flight-to-Rio</string>
+		</dict>
+	</array>
+</dict>
+</plist>
