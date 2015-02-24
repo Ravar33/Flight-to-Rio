@@ -82,6 +82,11 @@
 		moverCommand.h = currentHeight;
 		return Math.abs(currentHeight);
 	};
+	
+	p.ReturnPowerLevel = function(power){
+		var PowerLevel = Math.abs(moverCommand.h)*power;
+		return PowerLevel;
+	}
 
 	window.Multiplier = createjs.promote(Multiplier, "Container");
 

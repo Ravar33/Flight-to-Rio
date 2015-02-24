@@ -8,7 +8,7 @@
 
 (function() {
 
-	var physics, multiplier, cannon, scale, voilJanet, b2voilJanet;
+	var physics, multiplier, cannon, scale, voilJanet, b2voilJanet, angle;
 
 	function init() {
 
@@ -21,7 +21,7 @@
 
 	    physics = window.physics = new Physics(canvas);
 		
-		// physics.debug();
+		//physics.debug();
 
 		scale = physics.scale;
 		console.log("Scale: " + scale);
@@ -64,9 +64,10 @@
 				"x": event.stageX,
 				"y": event.stageY
 			}
-			var angle = cannon.calculateShootingAngleWithPoint(fingerLocation);
+			angle = cannon.calculateShootingAngleWithPoint(fingerLocation);
 			cannon.rotateShooter(angle, -80, -10);
 		};
+		if (!multiplier.isStarted) multiplier.start();
 	}
 
 	function stageMouseUp(event) {
@@ -86,11 +87,19 @@
 
 				physics.stage.addChild(voilJanet);
 
-				b2voilJanet = new Body(physics, { x: location.x/scale, y: location.y/scale, shape: "circle", radius: 15 / scale, name:"ball" });	
-				console.log(event.stageX/scale);
-				b2voilJanet.body.ApplyImpulse(new b2Vec2(Math.cos(0 * (Math.PI / 180)) * 1000,Math.sin(0 * (Math.PI / 180)) * 1000),b2voilJanet.body.GetWorldCenter());
+							
+				b2voilJanet = new Body(physics, { x: location.x/scale, y: location.y/scale, shape: "block", name:"ball" , width: 8, height: 3 });				
+				
+				var Shootingpower = multiplier.ReturnPowerLevel(10); //Function variable multiplies current height of powerbar with the number (in dit geval maal 10)
+				console.log("shootingpower = " + Shootingpower);
+				//console.log(event.stageX/scale);
+				
+				b2voilJanet.body.ApplyImpulse(new b2Vec2(Math.cos(angle * (Math.PI / 180)) * Shootingpower,Math.sin(angle * (Math.PI / 180)) * Shootingpower),b2voilJanet.body.GetWorldCenter());
 				
 				multiplier.lock();
+				
+				
+				
 			}
 		}
 
@@ -132,7 +141,7 @@
 			voilJanet.player.x = b2voilJanet.body.m_xf.position.x*scale;
 			voilJanet.player.y = b2voilJanet.body.m_xf.position.y*scale;
 
-			console.log(voilJanet.player.x, b2voilJanet.body.m_xf.position.x);
+			//console.log(voilJanet.player.x, b2voilJanet.body.m_xf.position.x);
 		}
 
 	};

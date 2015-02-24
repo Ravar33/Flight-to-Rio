@@ -62,7 +62,7 @@
 		deltaY = point.y - shooterHandle.y;
 		deltaX = point.x - shooterHandle.x;
 		var angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-		console.log("calculateShootingAngleWithPoint: " + angle);
+		//console.log("calculateShootingAngleWithPoint: " + angle);
 		return angle;
 	};
 

@@ -8,19 +8,22 @@
 
 (function() {
 
-	var physics, multiplier, cannon, scale;
+	var physics, multiplier, cannon, scale, voilJanet, b2voilJanet, angle;
 
 	function init() {
 
 		console.log('init CreateJS');
 
 		var canvas = document.getElementById("gameCanvas");
+		canvas.width = $(window).width();
+		canvas.height = $(window).height();
+		console.log($(window).width(), $(window).height());
 
 	    physics = window.physics = new Physics(canvas);
 		
-		// physics.debug();
+		//physics.debug();
 
-		scale = physics.scale / 2;
+		scale = physics.scale;
 		console.log("Scale: " + scale);
 
 	 	physics.stage = new createjs.Stage(canvas);
@@ -28,8 +31,6 @@
 	 	physics.stage.on("stagemousemove", mouseMove);
 		physics.stage.on("stagemouseup", stageMouseUp);
 
-		physics.stage.canvas.width = $(window).width();
-		physics.stage.canvas.height = $(window).height();
 		console.log("Width: " + physics.stage.canvas.width  + " Height: " + physics.stage.canvas.height);
 
 		createjs.Touch.enable(physics.stage);
@@ -37,14 +38,11 @@
 		// createjs.Ticker.on("tick", tick);
 		// createjs.Ticker.setFPS(30);
 
-	    new Body(physics, { type: "static", x: 0, y: physics.stage.canvas.height/scale/2, height: 10/scale,  width: physics.stage.canvas.width/scale , name:"floor" });
-	    new Body(physics, { type: "static", x: 0, y: 0, height: physics.stage.canvas.height/scale,  width: 10/scale , name:"left_wall" });
+	    new Body(physics, { type: "static", x: canvas.width/2/scale, y: canvas.height/scale, height: 10/scale,  width: canvas.width/scale , name:"floor" });
+	    new Body(physics, { type: "static", x: 0, y: canvas.height/2/scale, height: canvas.height/scale,  width: 10/scale , name:"left_wall" });
 
 		// var test = new Body(physics, { x: 260/scale, y: 160/scale, shape: "circle", radius: 15/scale, name:"ball" });
 		// test.CreateFixture({"density" : 100});
-
-		var b2ball = new Body(physics, { x: 260/scale, y: 160/scale, shape: "circle", radius: 15 / scale, name:"ball" });	// circle of 2.5 * 20 = 50 pixels radius
-		b2ball.body.ApplyImpulse(new b2Vec2(Math.cos(0 * (Math.PI / 180)) * 1000,Math.sin(0 * (Math.PI / 180)) * 1000),b2ball.body.GetWorldCenter());
 
 		multiplier = new Multiplier(physics.stage.canvas.width, physics.stage.canvas.height, 10, 20, 30); 
 		// PARAMS MULTIPLIER: stageWidth, stageHeight, xOffset, barWidth, maxPercentage 
@@ -66,21 +64,42 @@
 				"x": event.stageX,
 				"y": event.stageY
 			}
-			var angle = cannon.calculateShootingAngleWithPoint(fingerLocation);
+			angle = cannon.calculateShootingAngleWithPoint(fingerLocation);
 			cannon.rotateShooter(angle, -80, -10);
 		};
+		if (!multiplier.isStarted) multiplier.start();
 	}
 
 	function stageMouseUp(event) {
+
+		// console.log(event);
 
 		/** Start or lock multiplier **/
 		cannon.canSetAngle = false;
 		if (!multiplier.isStarted) multiplier.start();
 		else {
 			if (!multiplier.isLocked) {
-				/* !!SHOOT VOILJANET HERE!! */
-				console.log("SHOOT VOILJANET");
+
+				var location = cannon.getLocationToShootFrom();
+				console.log(location);
+
+				voilJanet = new VoilJanet(location);
+
+				physics.stage.addChild(voilJanet);
+
+							
+				b2voilJanet = new Body(physics, { x: location.x/scale, y: location.y/scale, shape: "block", name:"ball" , width: 8, height: 3 });				
+				
+				var Shootingpower = multiplier.ReturnPowerLevel(10); //Constructor property multiplies current height of power bar (in dit geval maal 10)
+				console.log("shootingpower = " + Shootingpower);
+				//console.log(event.stageX/scale);
+				
+				b2voilJanet.body.ApplyImpulse(new b2Vec2(Math.cos(angle * (Math.PI / 180)) * Shootingpower,Math.sin(angle * (Math.PI / 180)) * Shootingpower),b2voilJanet.body.GetWorldCenter());
+				
 				multiplier.lock();
+				
+				
+				
 			}
 		}
 
@@ -117,6 +136,14 @@
 		    }
 		    physics.stage.update();
 		}
+
+		if (voilJanet) {
+			voilJanet.player.x = b2voilJanet.body.m_xf.position.x*scale;
+			voilJanet.player.y = b2voilJanet.body.m_xf.position.y*scale;
+
+			//console.log(voilJanet.player.x, b2voilJanet.body.m_xf.position.x);
+		}
+
 	};
 
 	Body.prototype.draw = function(context) {
