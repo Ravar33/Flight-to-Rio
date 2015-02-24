@@ -183,12 +183,32 @@ h1 {
     height: 100px;
 }
 
-.upgrades .overview a h2 {
+.upgrades .overview a {
     text-align: center;
-    margin: 5px 0 0 0;
+    margin: 5px 15px 0 0;
     font-size: 1.2em;
     font-weight: 300;
     text-transform: uppercase;
+}
+
+#upgradeDescription
+{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    background-color: #F4A333;
+    width: 400px;
+    height: 150px;
+    padding: 1%;
+
+    visibility: hidden;
+}
+
+#close
+{
+    font-size: 10px;
+    margin-top: 10%;
 }
 
 /* End of Upgrades */
