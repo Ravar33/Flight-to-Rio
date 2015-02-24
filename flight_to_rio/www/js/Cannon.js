@@ -57,12 +57,15 @@
 	};
 
 	/** Caculates the angle from an input point with the base point of the cannon **/
-	p.calculateShootingAngleWithPoint = function(point) {
+	p.calculateShootingAngleWithPoint = function(point, min, max) {
 
 		deltaY = point.y - shooterHandle.y;
 		deltaX = point.x - shooterHandle.x;
 		var angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-		//console.log("calculateShootingAngleWithPoint: " + angle);
+		
+		if (angle > max) angle = max;
+		else if (angle < min) angle = min;
+
 		return angle;
 	};
 

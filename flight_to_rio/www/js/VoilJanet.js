@@ -28,11 +28,7 @@
 		this.player.regX = 10;
 		this.player.regY = 10;
 
-		console.log(this.player);
-
 		this.addChild(this.player);
-
-		// this.addChild();
 	};
 
 	window.VoilJanet = createjs.promote(VoilJanet, "Container");
