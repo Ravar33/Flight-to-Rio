@@ -8,7 +8,7 @@
 
 (function() {
 
-	var physics, multiplier, cannon, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver;
+	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, trampolines, restartBtn;
 
 	function init() {
 
@@ -42,7 +42,9 @@
 		cannon = new Cannon(physics.stage.canvas.width, physics.stage.canvas.height, 50, 10);
 			// PARAMS CANNON: stageWidth, stageHeight, xOffset, yBottomOffset 
 
-		physics.stage.addChild(multiplier, cannon);
+		hud = new Hud(physics.stage.canvas.width, physics.stage.canvas.height);
+
+		physics.stage.addChild(multiplier, cannon, hud);
 
 		multiplier.start();
 
@@ -50,6 +52,8 @@
 
 		frameNeedsToMove = false;
 		gameOver = false;
+
+		trampolines = new Array();
 	}
 
 	function mouseMove(event) {
@@ -94,9 +98,12 @@
 														b2voilJanet.body.GetWorldCenter() );
 
 			b2voilJanet.fixtureDef.density = .4;
+			b2voilJanet.fixtureDef.resitution = .05;
 
-			// console.log(b2voilJanet);
+			console.log(b2voilJanet);
 		}
+		
+		if (gameOver) restart(); 
 	}
 
 	/** Restart to shoot again **/
@@ -107,9 +114,11 @@
 		multiplier.restart();
 		multiplier.start();
 
-		physics.stage.removeChild(voilJanet);
 		physics.stage.x = 0;
 
+		hud.restart();
+
+		physics.stage.removeChild(voilJanet);
 		voilJanet = undefined;
 		b2voilJanet = undefined;
 
@@ -117,6 +126,13 @@
 		gameOver = false;
 
 		prevX = 0;
+
+		trampolines = [];
+
+		physics.stage.removeChild(restartBtn);
+		restartBtn = undefined;
+
+		hud.score.text = "Score: 0";
 	}
 
 	/* Box2D */
@@ -164,18 +180,48 @@
 				var widthToSubtractFromCurrentStage = (currentX - prevX);
 				// console.log(widthToSubtractFromCurrentStage);
 
-				if (prevX !== 0) physics.stage.x -= widthToSubtractFromCurrentStage;
+				if (prevX !== 0) {
+					physics.stage.x -= widthToSubtractFromCurrentStage;
+					hud.bg.x += widthToSubtractFromCurrentStage;
+					hud.score.x += widthToSubtractFromCurrentStage;
+
+					if (restartBtn) restartBtn.x += widthToSubtractFromCurrentStage;
+				}
 
 				prevX = voilJanet.player.x;
+
+				/** Adds trampoline only if stage is moving **/
+				if (Math.floor((Math.random() * 500) + 1) == 1) {
+					console.log("Add trampoline");
+
+					var trampoline = new Trampoline(physics.stage.canvas.width + Math.abs(physics.stage.x), physics.stage.canvas.height);
+					trampolines.add = trampoline;
+					physics.stage.addChild(trampoline);
+				};
 			}
+
+			var currentScore = Math.round(voilJanet.player.x/10);
 
 			if (didHitground() && !gameOver) {
-				gameOver = true;
 				console.log("GAME OVER");
-				// restart();
-			}
-		}
+				
+				gameOver = true;
 
+				restartBtn = new createjs.Text("Game over!\n\nScore: " + currentScore + "\n\nTab anywhere to restart", "20px HelveticaNeue", "black");
+				restartBtn.textAlign = "center";
+				restartBtn.lineWidth = 400;
+				restartBtn.x = physics.stage.canvas.width/2 + Math.abs(physics.stage.x);
+				console.log(restartBtn.width);
+				restartBtn.y = physics.stage.canvas.height/2 - restartBtn.getBounds().height/2;
+				physics.stage.addChild(restartBtn);
+
+				console.log(physics.stage.canvas.width, Math.abs(physics.stage.x));
+
+				hud.score.text = "Score: " + currentScore;
+			}
+
+			if (!gameOver) hud.score.text = "Score: " + currentScore;
+		}
 	};
 
 	var shouldFrameMove = function(x, startMovingFromLeftOnXAxisInPercentage) {

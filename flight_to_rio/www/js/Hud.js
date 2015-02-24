@@ -13,7 +13,8 @@
 		this.Container_constructor();
 
 		this.consts = {
-			"location": location
+			"stageWidth": stageWidth, 
+			"stageHeight": stageHeight
 		};
 
 		this.setup();
@@ -23,12 +24,22 @@
 
 	p.setup = function() {
 
-		// this.player = new createjs.Shape();
-		// this.player.graphics.beginFill("orange").drawRect(0, 0, 20, 20);
-		// this.player.regX = 10;
-		// this.player.regY = 10;
+		this.bg = new createjs.Shape();
+		this.bg.graphics.beginFill("indianred").drawRect(0, 0, 220, 40);
 
-		// this.addChild(this.player);
+		this.score = new createjs.Text("Score: 0", "15px HelveticaNeue", "white");
+
+		this.addChild(this.bg, this.score);
+
+		this.restart();
+	};
+
+	p.restart = function() {
+		this.bg.x = this.consts.stageWidth - 230;
+		this.bg.y = 10;
+
+		this.score.x = this.consts.stageWidth - 210;
+		this.score.y = 19;
 	};
 
 	window.Hud = createjs.promote(Hud, "Container");
