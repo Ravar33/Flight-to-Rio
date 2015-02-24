@@ -10,7 +10,7 @@ var app = {
 
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        console.log("YESYESYESYES");
+        console.log("Device is ready!");
     },
 
     receivedEvent: function(id) {

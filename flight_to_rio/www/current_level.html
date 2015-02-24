@@ -6,24 +6,22 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Welcome</title>
+        <title>Current Level</title>
     </head>
     <body>
         <div class="app">
-            <div class="welcome">
-                <h1>Flight to Rio!</h1>
-                <div class="buttons">
-                    <a href="levels.html">Choose level</a>
-                    <a href="upgrades.html">Upgrade</a>
-                </div>
-                <!-- <img src="img/welcome_bg.png" alt="background image" class="background" /> -->
-            </div> <!-- end of welcome -->
+            <canvas id="gameCanvas">
+            </canvas>
         </div>
 
         <script type="text/javascript" src="js/vendor/createjs.min.js"></script>
         <script type="text/javascript" src="js/vendor/jquery-2.1.3.min.js"></script>
 
+        
+        <script type="text/javascript" src="js/Multiplier.js"></script>
+        <script type="text/javascript" src="js/Cannon.js"></script>
+
         <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/game.js"></script>
     </body>
 </html>
