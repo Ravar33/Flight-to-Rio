@@ -76,7 +76,7 @@
 			"x": x, 
 			"y": y
 		};
-	}
+	};
 
 	window.Cannon = createjs.promote(Cannon, "Container");
 

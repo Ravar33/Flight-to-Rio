@@ -28,6 +28,15 @@
 		this.player.regX = 10;
 		this.player.regY = 10;
 
+		/*** JUST AS AN EXAMPLE ***/
+		this.player.graphics.beginFill("black").drawRect(-5, 15, 30, 40);
+		this.player.graphics.beginFill("black").drawRect(-5, 55, 10, 30);
+		this.player.graphics.beginFill("black").drawRect(15, 55, 10, 30);
+		this.player.graphics.beginFill("black").drawRect(-5, 15, -20, 10);
+		this.player.graphics.beginFill("black").drawRect(25, 15, 20, 10);
+		this.player.regY = 65;
+		/*** JUST AS AN EXAMPLE ***/
+
 		this.addChild(this.player);
 	};
 
