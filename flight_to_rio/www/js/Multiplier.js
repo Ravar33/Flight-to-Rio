@@ -30,7 +30,7 @@
 			}
 		};
 
-		console.log(this.consts.mover.min, this.consts.mover.max);
+		// console.log(this.consts.mover.min, this.consts.mover.max);
 
 		this.setup();
 	}
