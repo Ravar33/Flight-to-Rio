@@ -66,6 +66,15 @@
 		return angle;
 	};
 
+	p.getLocationToShootFrom = function(){
+		var x = shooter.x;
+		var y = shooter.y;
+		return {
+			"x": x, 
+			"y": y
+		};
+	}
+
 	window.Cannon = createjs.promote(Cannon, "Container");
 
 }());

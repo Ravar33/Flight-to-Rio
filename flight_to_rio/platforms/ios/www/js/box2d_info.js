@@ -96,7 +96,7 @@ Body.prototype.defaults = {
 Body.prototype.fixtureDefaults = {
     density: 2,
     friction: 1,
-    restitution: 0.2
+    restitution: .2
 };
  
 Body.prototype.definitionDefaults = {
