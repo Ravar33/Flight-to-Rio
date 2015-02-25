@@ -58,7 +58,8 @@
 		hud.redBull.text = "RedBull: " + redBull;
 
 		physics.stage.addChild(multiplier, cannon, hud);
-
+		playSound("samba_rio");
+		
 		multiplier.start();
 
 		requestAnimationFrame(gameLoop);
