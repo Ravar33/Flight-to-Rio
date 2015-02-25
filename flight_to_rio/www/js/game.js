@@ -123,6 +123,7 @@
 			b2voilJanet.fixtureDef.resitution = .05;
 			b2voilJanet.setPreventRotation = true;
 			b2voilJanet.body.SetFixedRotation(true);
+			playSound("scream_falsetto");
 
 			console.log("Fixed loc: " + b2voilJanet.body.IsFixedRotation());
 		} else {
@@ -236,6 +237,7 @@
 				gameOver = true;
 
 				multiplier.isLocked = true;
+				playSound("crowdaahh"); 
 
 				restartBtn = new createjs.Text("Game over!\n\nScore: " + currentScore + "\n\nTab anywhere to restart", "20px HelveticaNeue", "black");
 				restartBtn.textAlign = "center";
