@@ -29,7 +29,9 @@
 
 		this.score = new createjs.Text("Score: 0", "15px HelveticaNeue", "white");
 
-		this.addChild(this.bg, this.score);
+		this.redBull = new createjs.Text("RedBull: 0", "15px HelveticaNeue", "white");
+
+		this.addChild(this.bg, this.redBull, this.score);
 
 		this.restart();
 	};
@@ -40,6 +42,9 @@
 
 		this.score.x = this.consts.stageWidth - 210;
 		this.score.y = 19;
+
+		this.redBull.x = this.consts.stageWidth - 105;
+		this.redBull.y = 19;
 	};
 
 	window.Hud = createjs.promote(Hud, "Container");

@@ -8,9 +8,15 @@
 
 (function() {
 
-	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, trampolines, restartBtn;
+	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, trampolines, restartBtn, redBull;
 
 	function init() {
+
+		frameNeedsToMove = false;
+		gameOver = false;
+		trampolines = new Array();
+
+		redBull = 5;
 
 		var canvas = document.getElementById("gameCanvas");
 		canvas.width = $(window).width();
@@ -30,11 +36,16 @@
 
 		// console.log("Width: " + physics.stage.canvas.width  + " Height: " + physics.stage.canvas.height);
 
-		createjs.Touch.enable(physics.stage);
+		if ( createjs.Touch.isSupported() ) {
+			createjs.Touch.enable(physics.stage);
+		}
 
+		var degToRad = Math.PI / 180;
+
+		new Body(physics, { type: "static", x: canvas.width/2/scale, y:-10/scale, height: 10/scale,  width: canvas.width*10 , name:"ceiling", angle: -1 * degToRad });
 	    new Body(physics, { type: "static", x: canvas.width/2/scale, y: canvas.height/scale, height: 10/scale,  width: canvas.width*10 , name:"floor" });
 	    	/** Cranked up width to prevent voilJanet hitting no ground on an large throw **/
-	    new Body(physics, { type: "static", x: 0, y: canvas.height/2/scale, height: canvas.height/scale,  width: 10/scale , name:"left_wall" });
+	    new Body(physics, { type: "static", x: 0, y: canvas.height/2/scale, height: canvas.height/scale, width: 10/scale, name:"left_wall" });
 
 		multiplier = new Multiplier(physics.stage.canvas.width, physics.stage.canvas.height, 10, 20, 40); 
 			// PARAMS MULTIPLIER: stageWidth, stageHeight, xOffset, barWidth, maxPercentage 
@@ -44,16 +55,13 @@
 
 		hud = new Hud(physics.stage.canvas.width, physics.stage.canvas.height);
 
+		hud.redBull.text = "RedBull: " + redBull;
+
 		physics.stage.addChild(multiplier, cannon, hud);
 
 		multiplier.start();
 
 		requestAnimationFrame(gameLoop);
-
-		frameNeedsToMove = false;
-		gameOver = false;
-
-		trampolines = new Array();
 	}
 
 	function mouseMove(event) {
@@ -71,13 +79,27 @@
 		};
 	}
 
+	var prevPos = {
+		"x": -1,
+		"y": -1
+	};
+
 	function stageMouseUp(event) {
 
-		// console.log("Finger, touch up");
+		console.log("Finger, mouse up");
+
+		var curPos = {
+			"x": event.stageX,
+			"y": event.stageY
+		}
 
 		/** Start or lock multiplier **/
-		if (!multiplier.isLocked) {
-			
+		if (!multiplier.isLocked && (
+			!createjs.Touch.isSupported() ||
+			(createjs.Touch.isSupported() && curPos.x !== prevPos.x) ) ) {
+
+			console.log('SHOOT');
+
 			multiplier.lock();
 			cannon.canSetAngle = false;
 
@@ -87,7 +109,7 @@
 
 			physics.stage.addChild(voilJanet);
 
-			b2voilJanet = new Body(physics, { x: location.x/scale, y: location.y/scale, shape: "block", name:"ball" , width: 8, height: 3 });				
+			b2voilJanet = new Body(physics, { x:location.x/scale, y:location.y/scale, shape:"block", width:2, height:.5, name:"ball"});				
 			
 			/** Multiplies current height of powerbar with param **/
 			var Shootingpower = multiplier.ReturnPowerLevel(30); 
@@ -99,40 +121,41 @@
 
 			b2voilJanet.fixtureDef.density = .4;
 			b2voilJanet.fixtureDef.resitution = .05;
+			b2voilJanet.setPreventRotation = true;
+			b2voilJanet.body.SetFixedRotation(true);
 
-			console.log(b2voilJanet);
+			console.log("Fixed loc: " + b2voilJanet.body.IsFixedRotation());
+		} else {
+
+			/** Extra boost **/
+	 		console.log("RedBulls left: " + redBull);
+
+			if (!gameOver && redBull !== 0) {
+				console.log("Consumed Redbull!");
+
+				b2voilJanet.body.ApplyImpulse( new b2Vec2(	Math.cos(-20 * (Math.PI / 180)) * 10000,
+											   Math.sin(-20 * (Math.PI / 180)) * 10000),
+											   b2voilJanet.body.GetWorldCenter() );
+				redBull --;
+
+				hud.redBull.text = "RedBull: " + redBull;
+			}
 		}
-		
-		if (gameOver) restart(); 
-	}
+
+		if (gameOver) restart();
+
+		prevPos = {
+			"x": event.stageX,
+			"y": event.stageY
+		};
+	};
 
 	/** Restart to shoot again **/
 	function restart() {
 
-		cannon.canSetAngle = true;
-		
-		multiplier.restart();
-		multiplier.start();
+		console.log('Restart Game');
 
-		physics.stage.x = 0;
-
-		hud.restart();
-
-		physics.stage.removeChild(voilJanet);
-		voilJanet = undefined;
-		b2voilJanet = undefined;
-
-		frameNeedsToMove = false;
-		gameOver = false;
-
-		prevX = 0;
-
-		trampolines = [];
-
-		physics.stage.removeChild(restartBtn);
-		restartBtn = undefined;
-
-		hud.score.text = "Score: 0";
+		window.location.reload();
 	}
 
 	/* Box2D */
@@ -167,12 +190,14 @@
 		// console.log("Physics, draw");
 
 		if (voilJanet) {
+
 			voilJanet.player.x = b2voilJanet.body.m_xf.position.x*scale;
 			voilJanet.player.y = b2voilJanet.body.m_xf.position.y*scale;
 
 			currentX = voilJanet.player.x;
 
 			if (frameNeedsToMove || shouldFrameMove(voilJanet.player.x, 40)) {
+				
 				frameNeedsToMove = true;
 				// console.log("Frame should move");
 				// console.log(voilJanet.player.x, physics.stage.x);
@@ -181,9 +206,11 @@
 				// console.log(widthToSubtractFromCurrentStage);
 
 				if (prevX !== 0) {
+
 					physics.stage.x -= widthToSubtractFromCurrentStage;
 					hud.bg.x += widthToSubtractFromCurrentStage;
 					hud.score.x += widthToSubtractFromCurrentStage;
+					hud.redBull.x += widthToSubtractFromCurrentStage;
 
 					if (restartBtn) restartBtn.x += widthToSubtractFromCurrentStage;
 				}
@@ -191,7 +218,7 @@
 				prevX = voilJanet.player.x;
 
 				/** Adds trampoline only if stage is moving **/
-				if (Math.floor((Math.random() * 500) + 1) == 1) {
+				if ( !gameOver && Math.floor((Math.random() * 500) + 1) == 1) {
 					console.log("Add trampoline");
 
 					var trampoline = new Trampoline(physics.stage.canvas.width + Math.abs(physics.stage.x), physics.stage.canvas.height);
@@ -203,15 +230,17 @@
 			var currentScore = Math.round(voilJanet.player.x/10);
 
 			if (didHitground() && !gameOver) {
+
 				console.log("GAME OVER");
 				
 				gameOver = true;
+
+				multiplier.isLocked = true;
 
 				restartBtn = new createjs.Text("Game over!\n\nScore: " + currentScore + "\n\nTab anywhere to restart", "20px HelveticaNeue", "black");
 				restartBtn.textAlign = "center";
 				restartBtn.lineWidth = 400;
 				restartBtn.x = physics.stage.canvas.width/2 + Math.abs(physics.stage.x);
-				console.log(restartBtn.width);
 				restartBtn.y = physics.stage.canvas.height/2 - restartBtn.getBounds().height/2;
 				physics.stage.addChild(restartBtn);
 
@@ -221,9 +250,9 @@
 			}
 
 			if (!gameOver) hud.score.text = "Score: " + currentScore;
-		}
+		}	
 	};
-
+	
 	var shouldFrameMove = function(x, startMovingFromLeftOnXAxisInPercentage) {
 		return (physics.stage.canvas.width / 100 * startMovingFromLeftOnXAxisInPercentage) <= x;
 	}
@@ -267,7 +296,7 @@
 	        app.receivedEvent('deviceready');
 	        console.log("Device is ready!");
 	        
-	        init();
+	        // init();
 	    },
 
 	    receivedEvent: function(id) {

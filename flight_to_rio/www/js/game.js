@@ -8,9 +8,15 @@
 
 (function() {
 
-	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, trampolines, restartBtn, CanIExtraPower;
+	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, trampolines, restartBtn, redBull;
 
 	function init() {
+
+		frameNeedsToMove = false;
+		gameOver = false;
+		trampolines = new Array();
+
+		redBull = 5;
 
 		var canvas = document.getElementById("gameCanvas");
 		canvas.width = $(window).width();
@@ -34,9 +40,12 @@
 			createjs.Touch.enable(physics.stage);
 		}
 
+		var degToRad = Math.PI / 180;
+
+		new Body(physics, { type: "static", x: canvas.width/2/scale, y:-10/scale, height: 10/scale,  width: canvas.width*10 , name:"ceiling", angle: -1 * degToRad });
 	    new Body(physics, { type: "static", x: canvas.width/2/scale, y: canvas.height/scale, height: 10/scale,  width: canvas.width*10 , name:"floor" });
 	    	/** Cranked up width to prevent voilJanet hitting no ground on an large throw **/
-	    new Body(physics, { type: "static", x: 0, y: canvas.height/2/scale, height: canvas.height/scale,  width: 10/scale , name:"left_wall" });
+	    new Body(physics, { type: "static", x: 0, y: canvas.height/2/scale, height: canvas.height/scale, width: 10/scale, name:"left_wall" });
 
 		multiplier = new Multiplier(physics.stage.canvas.width, physics.stage.canvas.height, 10, 20, 40); 
 			// PARAMS MULTIPLIER: stageWidth, stageHeight, xOffset, barWidth, maxPercentage 
@@ -46,17 +55,13 @@
 
 		hud = new Hud(physics.stage.canvas.width, physics.stage.canvas.height);
 
+		hud.redBull.text = "RedBull: " + redBull;
+
 		physics.stage.addChild(multiplier, cannon, hud);
 
 		multiplier.start();
 
 		requestAnimationFrame(gameLoop);
-
-		frameNeedsToMove = false;
-		gameOver = false;
-
-		trampolines = new Array();
-		
 	}
 
 	function mouseMove(event) {
@@ -71,8 +76,6 @@
 			}
 			angle = cannon.calculateShootingAngleWithPoint(fingerLocation, -80, -10);
 			cannon.rotateShooter(angle, -80, -10);
-			
-			
 		};
 	}
 
@@ -83,17 +86,12 @@
 
 	function stageMouseUp(event) {
 
+		console.log("Finger, mouse up");
+
 		var curPos = {
 			"x": event.stageX,
 			"y": event.stageY
 		}
-
-		//console.log("Finger, touch up");
-		//console.log("Touch Support: " + createjs.Touch.isSupported());
-		//console.log(curPos.x, prevPos.x);
-		//console.log("THE FUCK??: " + (curPos.x !== prevPos.x));
-		
-	
 
 		/** Start or lock multiplier **/
 		if (!multiplier.isLocked && (
@@ -111,7 +109,7 @@
 
 			physics.stage.addChild(voilJanet);
 
-			b2voilJanet = new Body(physics, { x: location.x/scale, y: location.y/scale, shape: "block", name:"ball" , width: 8, height: 3 });				
+			b2voilJanet = new Body(physics, { x:location.x/scale, y:location.y/scale, shape:"block", width:2, height:.5, name:"ball"});				
 			
 			/** Multiplies current height of powerbar with param **/
 			var Shootingpower = multiplier.ReturnPowerLevel(30); 
@@ -123,26 +121,28 @@
 
 			b2voilJanet.fixtureDef.density = .4;
 			b2voilJanet.fixtureDef.resitution = .05;
+			b2voilJanet.setPreventRotation = true;
+			b2voilJanet.body.SetFixedRotation(true);
 
-			// console.log(b2voilJanet);
-			
-			CanIExtraPower = 5;
-		}
-		else{
-				//extra boost
-	 console.log(" gameover: " + gameOver + " canIextrapower? " + CanIExtraPower);
-	if (!gameOver && CanIExtraPower != 0) {
-		
-		b2voilJanet.body.ApplyImpulse( new b2Vec2(	Math.cos(-20 * (Math.PI / 180)) * 10000,Math.sin(-20 * (Math.PI / 180)) * 10000),b2voilJanet.body.GetWorldCenter() );
-				CanIExtraPower --;
-				console.log("extra push");
-		}
+			console.log("Fixed loc: " + b2voilJanet.body.IsFixedRotation());
+		} else {
+
+			/** Extra boost **/
+	 		console.log("RedBulls left: " + redBull);
+
+			if (!gameOver && redBull !== 0) {
+				console.log("Consumed Redbull!");
+
+				b2voilJanet.body.ApplyImpulse( new b2Vec2(	Math.cos(-20 * (Math.PI / 180)) * 10000,
+											   Math.sin(-20 * (Math.PI / 180)) * 10000),
+											   b2voilJanet.body.GetWorldCenter() );
+				redBull --;
+
+				hud.redBull.text = "RedBull: " + redBull;
+			}
 		}
 
-		if (gameOver) {
-			console.log('RESTART');
-			restart(); 
-		};
+		if (gameOver) restart();
 
 		prevPos = {
 			"x": event.stageX,
@@ -153,30 +153,9 @@
 	/** Restart to shoot again **/
 	function restart() {
 
-		cannon.canSetAngle = true;
-		
-		multiplier.restart();
-		multiplier.start();
+		console.log('Restart Game');
 
-		physics.stage.x = 0;
-
-		hud.restart();
-
-		physics.stage.removeChild(voilJanet);
-		voilJanet = undefined;
-		b2voilJanet = undefined;
-
-		frameNeedsToMove = false;
-		gameOver = false;
-
-		prevX = 0;
-
-		trampolines = [];
-
-		physics.stage.removeChild(restartBtn);
-		restartBtn = undefined;
-
-		hud.score.text = "Score: 0";
+		window.location.reload();
 	}
 
 	/* Box2D */
@@ -202,8 +181,6 @@
 		    }
 		    physics.stage.update();
 		}
-		
-		
 	};
 
 	var prevX = 0;
@@ -213,12 +190,14 @@
 		// console.log("Physics, draw");
 
 		if (voilJanet) {
+
 			voilJanet.player.x = b2voilJanet.body.m_xf.position.x*scale;
 			voilJanet.player.y = b2voilJanet.body.m_xf.position.y*scale;
 
 			currentX = voilJanet.player.x;
 
 			if (frameNeedsToMove || shouldFrameMove(voilJanet.player.x, 40)) {
+				
 				frameNeedsToMove = true;
 				// console.log("Frame should move");
 				// console.log(voilJanet.player.x, physics.stage.x);
@@ -227,9 +206,11 @@
 				// console.log(widthToSubtractFromCurrentStage);
 
 				if (prevX !== 0) {
+
 					physics.stage.x -= widthToSubtractFromCurrentStage;
 					hud.bg.x += widthToSubtractFromCurrentStage;
 					hud.score.x += widthToSubtractFromCurrentStage;
+					hud.redBull.x += widthToSubtractFromCurrentStage;
 
 					if (restartBtn) restartBtn.x += widthToSubtractFromCurrentStage;
 				}
@@ -249,6 +230,7 @@
 			var currentScore = Math.round(voilJanet.player.x/10);
 
 			if (didHitground() && !gameOver) {
+
 				console.log("GAME OVER");
 				
 				gameOver = true;
@@ -268,12 +250,8 @@
 			}
 
 			if (!gameOver) hud.score.text = "Score: " + currentScore;
-		}
-		
-		
+		}	
 	};
-	
-	
 	
 	var shouldFrameMove = function(x, startMovingFromLeftOnXAxisInPercentage) {
 		return (physics.stage.canvas.width / 100 * startMovingFromLeftOnXAxisInPercentage) <= x;
@@ -318,7 +296,7 @@
 	        app.receivedEvent('deviceready');
 	        console.log("Device is ready!");
 	        
-	        init();
+	        // init();
 	    },
 
 	    receivedEvent: function(id) {
