@@ -30,7 +30,9 @@
 
 		// console.log("Width: " + physics.stage.canvas.width  + " Height: " + physics.stage.canvas.height);
 
-		createjs.Touch.enable(physics.stage);
+		if ( createjs.Touch.isSupported() ) {
+			createjs.Touch.enable(physics.stage);
+		}
 
 	    new Body(physics, { type: "static", x: canvas.width/2/scale, y: canvas.height/scale, height: 10/scale,  width: canvas.width*10 , name:"floor" });
 	    	/** Cranked up width to prevent voilJanet hitting no ground on an large throw **/
@@ -71,13 +73,30 @@
 		};
 	}
 
+	var prevPos = {
+		"x": -1,
+		"y": -1
+	};
+
 	function stageMouseUp(event) {
 
-		// console.log("Finger, touch up");
+		var curPos = {
+			"x": event.stageX,
+			"y": event.stageY
+		}
+
+		console.log("Finger, touch up");
+		console.log("Touch Support: " + createjs.Touch.isSupported());
+		console.log(curPos.x, prevPos.x);
+		console.log("THE FUCK??: " + (curPos.x !== prevPos.x));
 
 		/** Start or lock multiplier **/
-		if (!multiplier.isLocked) {
-			
+		if (!multiplier.isLocked && (
+			!createjs.Touch.isSupported() ||
+			(createjs.Touch.isSupported() && curPos.x !== prevPos.x) ) ) {
+
+			console.log('SHOOT');
+
 			multiplier.lock();
 			cannon.canSetAngle = false;
 
@@ -100,10 +119,18 @@
 			b2voilJanet.fixtureDef.density = .4;
 			b2voilJanet.fixtureDef.resitution = .05;
 
-			console.log(b2voilJanet);
+			// console.log(b2voilJanet);
 		}
-		
-		if (gameOver) restart(); 
+
+		if (gameOver) {
+			console.log('RESTART');
+			restart(); 
+		}
+
+		prevPos = {
+			"x": event.stageX,
+			"y": event.stageY
+		};
 	}
 
 	/** Restart to shoot again **/
@@ -191,7 +218,7 @@
 				prevX = voilJanet.player.x;
 
 				/** Adds trampoline only if stage is moving **/
-				if (Math.floor((Math.random() * 500) + 1) == 1) {
+				if ( !gameOver && Math.floor((Math.random() * 500) + 1) == 1) {
 					console.log("Add trampoline");
 
 					var trampoline = new Trampoline(physics.stage.canvas.width + Math.abs(physics.stage.x), physics.stage.canvas.height);
@@ -207,11 +234,12 @@
 				
 				gameOver = true;
 
+				multiplier.isLocked = true;
+
 				restartBtn = new createjs.Text("Game over!\n\nScore: " + currentScore + "\n\nTab anywhere to restart", "20px HelveticaNeue", "black");
 				restartBtn.textAlign = "center";
 				restartBtn.lineWidth = 400;
 				restartBtn.x = physics.stage.canvas.width/2 + Math.abs(physics.stage.x);
-				console.log(restartBtn.width);
 				restartBtn.y = physics.stage.canvas.height/2 - restartBtn.getBounds().height/2;
 				physics.stage.addChild(restartBtn);
 
