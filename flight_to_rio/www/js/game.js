@@ -8,7 +8,7 @@
 
 (function() {
 
-	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, trampolines, restartBtn;
+	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, trampolines, restartBtn, CanIExtraPower;
 
 	function init() {
 
@@ -56,6 +56,7 @@
 		gameOver = false;
 
 		trampolines = new Array();
+		
 	}
 
 	function mouseMove(event) {
@@ -70,6 +71,8 @@
 			}
 			angle = cannon.calculateShootingAngleWithPoint(fingerLocation, -80, -10);
 			cannon.rotateShooter(angle, -80, -10);
+			
+			
 		};
 	}
 
@@ -85,10 +88,12 @@
 			"y": event.stageY
 		}
 
-		console.log("Finger, touch up");
-		console.log("Touch Support: " + createjs.Touch.isSupported());
-		console.log(curPos.x, prevPos.x);
-		console.log("THE FUCK??: " + (curPos.x !== prevPos.x));
+		//console.log("Finger, touch up");
+		//console.log("Touch Support: " + createjs.Touch.isSupported());
+		//console.log(curPos.x, prevPos.x);
+		//console.log("THE FUCK??: " + (curPos.x !== prevPos.x));
+		
+	
 
 		/** Start or lock multiplier **/
 		if (!multiplier.isLocked && (
@@ -120,18 +125,30 @@
 			b2voilJanet.fixtureDef.resitution = .05;
 
 			// console.log(b2voilJanet);
+			
+			CanIExtraPower = 5;
+		}
+		else{
+				//extra boost
+	 console.log(" gameover: " + gameOver + " canIextrapower? " + CanIExtraPower);
+	if (!gameOver && CanIExtraPower != 0) {
+		
+		b2voilJanet.body.ApplyImpulse( new b2Vec2(	Math.cos(-20 * (Math.PI / 180)) * 10000,Math.sin(-20 * (Math.PI / 180)) * 10000),b2voilJanet.body.GetWorldCenter() );
+				CanIExtraPower --;
+				console.log("extra push");
+		}
 		}
 
 		if (gameOver) {
 			console.log('RESTART');
 			restart(); 
-		}
+		};
 
 		prevPos = {
 			"x": event.stageX,
 			"y": event.stageY
 		};
-	}
+	};
 
 	/** Restart to shoot again **/
 	function restart() {
@@ -185,6 +202,8 @@
 		    }
 		    physics.stage.update();
 		}
+		
+		
 	};
 
 	var prevX = 0;
@@ -250,8 +269,12 @@
 
 			if (!gameOver) hud.score.text = "Score: " + currentScore;
 		}
+		
+		
 	};
-
+	
+	
+	
 	var shouldFrameMove = function(x, startMovingFromLeftOnXAxisInPercentage) {
 		return (physics.stage.canvas.width / 100 * startMovingFromLeftOnXAxisInPercentage) <= x;
 	}
