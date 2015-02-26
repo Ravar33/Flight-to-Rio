@@ -28,11 +28,13 @@ if(amountOfMoney == undefined || amountOfMoney == NaN){
 	 amountOfMoney = 0;
 	window.localStorage.setItem("Money", amountOfMoney);
 };
+function ShowForStore(){
+	document.getElementById("powerbarlevelshower").innerHTML = "Niveau: " + powerbarLevel;
+	document.getElementById("gunpowderlevelshower").innerHTML = "Niveau: " + gunpowderLevel;
+	document.getElementById("redbulllevelshower").innerHTML = "Niveau: " + redBullLevel;
+	document.getElementById("amountofmoneyshower").innerHTML = "Money: " + amountOfMoney;
+};
 
-document.getElementById("powerbarlevelshower").innerHTML = "Niveau: " + powerbarLevel;
-document.getElementById("gunpowderlevelshower").innerHTML = "Niveau: " + gunpowderLevel;
-document.getElementById("redbulllevelshower").innerHTML = "Niveau: " + redBullLevel;
-document.getElementById("amountofmoneyshower").innerHTML = "Money: " + amountOfMoney;
  
 function Upgrade(WhatToUpgrade){
 	   switch(WhatToUpgrade)
