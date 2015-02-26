@@ -46,6 +46,7 @@ function Upgrade(WhatToUpgrade){
 			window.localStorage.setItem("GunPowderUpgradeLevel", gunpowderLevel);
 			window.localStorage.setItem("Money", amountOfMoney);
 			console.log("gunpowderlevel = " + window.localStorage.getItem("GunPowderUpgradeLevel"));
+			playSound("scream_falsetto");
 			}
 			else { console.log("Upgrade can't exceed level 3"); }
 			console.log("GunPowderUpgradeLevel = " + gunpowderLevel);
@@ -59,6 +60,7 @@ function Upgrade(WhatToUpgrade){
             window.localStorage.setItem("RedBullUpgradeLevel", redBullLevel);
 			window.localStorage.setItem("Money", amountOfMoney);
 			console.log("RedBullUpgradeLevel = " + window.localStorage.getItem("RedBullUpgradeLevel"));
+			playSound("redbull_belch");
 			
 			}
 			else { console.log("Upgrade can't exceed level 3"); }
@@ -74,6 +76,7 @@ function Upgrade(WhatToUpgrade){
             window.localStorage.setItem("PowerbarUpgradeLevel", powerbarLevel);
 			window.localStorage.setItem("Money", amountOfMoney);
 			console.log("PowerbarUpgradeLevel = " + window.localStorage.getItem("PowerbarUpgradeLevel"));
+			playSound("scream_falsetto");
 			}
 			else { console.log("Upgrade can't exceed level 3"); }
 			console.log("PowerbarUpgradeLevel = " + powerbarLevel);
