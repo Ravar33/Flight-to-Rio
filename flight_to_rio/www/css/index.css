@@ -6,7 +6,9 @@
 
 a {
     text-decoration: none;
+    color: inherit;
 }
+
 
 body, html {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
@@ -147,6 +149,8 @@ h1 {
 }
 
 .back {
+    text-decoration: none;
+    color:white;
     margin-top: 2%;
     text-align: center; 
     background-color: #F4A333;
