@@ -26,11 +26,21 @@
 
 	p.setup = function() {
 
-		this.obstacle = new createjs.Shape();
+		/*this.obstacle = new createjs.Shape();
 		this.obstacle.graphics.beginFill("red").drawRect(this.consts.x, this.consts.y, this.consts.width, this.consts.height);
 		this.obstacle.regX = this.consts.width/2;
-		this.obstacle.regY = this.consts.height/2;
+		this.obstacle.regY = this.consts.height/2;*/
 
+		
+		
+		this.obstacle = new createjs.Bitmap("img/Rock.png");
+		this.obstacle.x = this.consts.x;
+		this.obstacle.y = this.consts.y;
+		this.obstacle.width = this.consts.width;
+		this.obstacle.height = this.consts.height;
+		this.obstacle.regX = this.consts.width/2;
+		this.obstacle.regY = this.consts.height/2;
+		
 		this.addChild(this.obstacle);
 	};
 
