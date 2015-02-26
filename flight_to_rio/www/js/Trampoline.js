@@ -8,13 +8,15 @@
 
 (function() {
 
-	function Trampoline(stageWidth, stageHeight) {
+	function Trampoline(x, y, width, height) {
 
 		this.Container_constructor();
 
 		this.consts = {
-			"stageWidth": stageWidth, 
-			"stageHeight": stageHeight
+			"x": x, 
+			"y": y,
+			"width": width,
+			"height": height
 		};
 
 		this.setup();
@@ -25,14 +27,12 @@
 	p.setup = function() {
 
 		this.trampoline = new createjs.Shape();
-		this.trampoline.graphics.beginFill("gray").drawRect(this.consts.stageWidth + 100, this.consts.stageHeight - 40, 100, 40);
+		this.trampoline.graphics.beginFill("blue").drawRect(this.consts.x, this.consts.y, this.consts.width, this.consts.height);
+		this.trampoline.regX = this.consts.width/2;
+		this.trampoline.regY = this.consts.height/2;
 
 		this.addChild(this.trampoline);
 	};
-
-	p.move = function(length, moveLeft) {
-		this.trampoline.x = (moveLeft) ? this.trampoline.x - length : this.trampoline.x + length;
-	}
 
 	window.Trampoline = createjs.promote(Trampoline, "Container");
 

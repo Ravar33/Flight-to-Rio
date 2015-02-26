@@ -16,9 +16,10 @@ var b2MassData = Box2D.Collision.Shapes.b2MassData;
 var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
 var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
 var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
+var b2ContactListener = Box2D.Dynamics.b2ContactListener;
 
 var Physics = window.Physics = function(element,scale) {
-    var gravity = new b2Vec2(0,9.8);
+    var gravity = new b2Vec2(0,20);
     this.world = new b2World(gravity, true);
     this.element = element;
     this.context = element.getContext("2d");
