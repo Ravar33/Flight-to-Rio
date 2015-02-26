@@ -349,9 +349,10 @@
 				gameOver = true;
 
 				multiplier.isLocked = true;
-				playSound("crowdaahh"); 
+				playSound("crowdaahh");
+				postMoney(parseInt(currentScore));
 
-				restartBtn = new createjs.Text("Game over!\n\nScore: " + currentScore + "\n\nTab anywhere to restart", "20px HelveticaNeue", "black");
+				restartBtn = new createjs.Text("Game over!\n\nScore: " + currentScore + "\n\nTap anywhere to restart \n\nTotal Amount of money: " + amountOfMoney, "20px HelveticaNeue", "black");
 				restartBtn.textAlign = "center";
 				restartBtn.lineWidth = 400;
 				restartBtn.x = physics.stage.canvas.width/2 + Math.abs(physics.stage.x);
@@ -361,6 +362,7 @@
 				// console.log(physics.stage.canvas.width, Math.abs(physics.stage.x));
 
 				hud.score.text = "Score: " + currentScore;
+				
 
 		    } else if ((nameA == "player" && nameB == "right_wall") || 
 		    			(nameA == "right_wall" && nameB == "player") ) {
