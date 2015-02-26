@@ -49,7 +49,7 @@ function Upgrade(WhatToUpgrade){
 			
 			}
 			else { console.log("Upgrade can't exceed level 3"); }
-			playSound(scream_falsetto);
+			playSound(cannon_sound);
 			console.log("GunPowderUpgradeLevel = " + gunpowderLevel);
 			document.getElementById("gunpowderlevelshower").innerHTML = "Niveau: " + gunpowderLevel;
 			document.getElementById("amountofmoneyshower").innerHTML = "Money: " + amountOfMoney;

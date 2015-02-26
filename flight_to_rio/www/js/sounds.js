@@ -16,6 +16,7 @@ var crowdaahh = new Audio("sounds/screams/crowdaahh.mp3");
 var redbull_belch = new Audio("sounds/other/redbull_belch.mp3");
 var samba_side_menu = new Audio("sounds/sambas/samba_side_menus.mp3");
 var samba_main_menu = new Audio("sounds/sambas/samba_main_menu.mp3");
+var cannon_sound = new Audio("sounds/other/cannon.mp3");
 
 samba_main_menu.loop = true;
 samba_rio.loop = true;

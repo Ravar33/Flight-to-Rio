@@ -202,7 +202,7 @@
 			b2voilJanet.setPreventRotation = true;
 			b2voilJanet.body.SetFixedRotation(true);
 			// console.log("Fixed loc: " + b2voilJanet.body.IsFixedRotation());
-			
+			playSound(cannon_sound);
 			playSound(scream_falsetto);
 
 			
