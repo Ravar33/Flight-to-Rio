@@ -215,7 +215,7 @@
 				console.log("Consumed Redbull!");
 
 				doImpulseToPlayer();
-				
+				playSound("redbull_belch");
 				redBull --;
 
 				hud.redBull.text = "RedBull: " + redBull;

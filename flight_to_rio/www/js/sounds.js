@@ -9,8 +9,13 @@ function playSound(soundID) {
 	console.log("sound played");
 }*/
 
+
+
 function playSound(soundID) {
   //createjs.Sound.play(soundID);
-  document.getElementById(soundID).play()
+  document.getElementById(soundID).load();
+  document.getElementById(soundID).play();
+  
   console.log("sound played");
 }
+
