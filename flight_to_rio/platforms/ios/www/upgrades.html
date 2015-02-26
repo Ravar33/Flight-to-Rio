@@ -14,10 +14,15 @@
                 <h1>Upgrades</h1>
 
 
-                <a id="closeDescription" onclick="return false">
+                 <a id="closeDescription" onclick="return false">
                     <div id="upgradeDescription">
                         <h2><div id="upgradeTitle"></div></h2><br>
                         <div id="upgradeExplanation"></div>
+                        
+                        
+                        <div class="buy">
+                            <img id="priceImg" src="" alt="coin">
+                        </div>
                         <div id="close">Tap to close</div>
                     </div>
                 </a>
@@ -26,15 +31,15 @@
 
                 <div class="overview" id="upgrade">
                     <a onclick="Upgrade(1);" href="#">
-                        <img src="" alt="GunPowder">
+                        <img src="img/Upgrade_Cannon.png" alt="GunPowder">
                         <p id="gunpowderlevelshower">Level: 1</p>
                     </a>
                     <a onclick="Upgrade(2);" href="#">
-                        <img src="" alt="RedBull">
+                        <img src="img/Upgrade_RedBull.png" alt="RedBull">
                         <p id="redbulllevelshower">Level: 1</p>
                     </a>
                     <a onclick="Upgrade(3);" href="#">
-                        <img src="" alt="PowerBar">
+                        <img src="img/Upgrade_PowerBar.png" alt="PowerBar">
                         <p id="powerbarlevelshower">Level: 1</p>
                     </a>
                 </div>
@@ -42,9 +47,7 @@
                 
 
                 <br>
-                 <a href="index.html"> <div class="back">
-                    Back 
-                </div> </a>
+                 <a href="index.html"> <div class="back"> Back  </div> </a>
                 <a href="#" onclick="resetall()"><div class="back">Reset Everything</div></a>
                 <a href="#" onclick="givemoney()"><div class="back">Give Money</div></a>
 
@@ -57,7 +60,7 @@
         <script type="text/javascript" src="js/upgrades.js"></script>
         <audio src='sounds/sambas/samba_side_menus.mp3' id='samba_side_menu'>
         <script type="text/javascript" src="js/sounds.js"></script>
-        <script>playSound("samba_side_menu");</script>
+        <script>playSound("samba_side_menu"); ShowForStore();</script>
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
