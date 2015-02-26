@@ -14,7 +14,7 @@ $(function(){
 	$("#info").html("Nice, finished level " + getUrlVars()['level'] + ", your score is: " + getUrlVars()['score']);
 
 	console.log(getUrlVars()['level']);
-
+	playSound(woohoo);
 	function getUrlVars() {
 	    var vars = {};
 	    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -22,4 +22,5 @@ $(function(){
 	    });
 	    return vars;
 	}
+	
 });
