@@ -257,7 +257,7 @@
 				prevX = voilJanet.player.x;
 
 				/** Adds trampoline only if stage is moving **/
-				if ( !gameOver && Math.floor((Math.random() * 500) + 1) == 1) {
+				if ( !gameOver && Math.floor((Math.random() * 600) + 1) == 1) {
 					// console.log("Add trampoline");
 
 					// console.log("STAGE CANVAS Width: " + physics.stage.canvas.width  + " Height: " + physics.stage.canvas.height);
