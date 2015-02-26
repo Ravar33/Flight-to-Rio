@@ -109,7 +109,7 @@
 		addBackground(10, ["img/Home.png", "img/Levels.png", "img/defaultBG.png", "img/Home.png"]);
 		
 		physics.stage.addChild(multiplier, cannon, hud);
-		playSound("samba_rio");
+		playSound(samba_rio);
 		
 		multiplier.start();
 
@@ -203,7 +203,7 @@
 			b2voilJanet.body.SetFixedRotation(true);
 			// console.log("Fixed loc: " + b2voilJanet.body.IsFixedRotation());
 			
-			playSound("scream_falsetto");
+			playSound(scream_falsetto);
 
 			
 		} else {
@@ -215,7 +215,7 @@
 				console.log("Consumed Redbull!");
 
 				doImpulseToPlayer();
-				playSound("redbull_belch");
+				playSound(redbull_belch);
 				redBull --;
 
 				hud.redBull.text = "RedBull: " + redBull;
@@ -400,7 +400,7 @@
 				gameOver = true;
 
 				multiplier.isLocked = true;
-				playSound("crowdaahh");
+				playSound(crowdaahh);
 				postMoney(parseInt(currentScore));
 
 				restartBtn = new createjs.Text("Game over!\n\nScore: " + currentScore + "\n\ntap anywhere to go back\n\ntotal Amount of money: " + amountOfMoney, "20px HelveticaNeue", "black");
