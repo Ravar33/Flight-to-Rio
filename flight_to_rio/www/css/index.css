@@ -254,5 +254,19 @@ h1 {
 /* End of Current Level */
 
 
+/** End */
+
+#player {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    z-index: 9999999;
+    background-color: red;
+    bottom: 500px;
+    left: calc(50% - 50px);
+}
+
+/* End of End */
+
 
 

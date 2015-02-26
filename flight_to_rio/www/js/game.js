@@ -8,7 +8,7 @@
 
 (function() {
 
-	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, restartBtn, redBull, currentScore, scaleFactor, shootingpowerFactor, powerbarFactor;
+	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, restartBtn, redBull, currentScore, scaleFactor, shootingpowerFactor, powerbarFactor, level;
 
 	var degToRad = Math.PI / 180;
 
@@ -18,55 +18,57 @@
 		gameOver = false;
 		currentScore = 0;
 		switch(parseInt(redBullLevel)) {
-    case 1:
-        redBull = 2;
-        break;
-    case 2:
-        redBull = 4;
-        break;
-	case 3:
-        redBull = 6;
-        break;
-	case 4:
-        redBull = 8;
-        break;
-    default:
-        return;
-};
-			switch(parseInt(gunpowderLevel)) {
-    case 1:
-        shootingpowerFactor = 20;
-        break;
-    case 2:
-        shootingpowerFactor = 40;
-        break;
-	case 3:
-        shootingpowerFactor = 60;
-        break;
-	case 4:
-        shootingpowerFactor = 80;
-        break;
-    default:
-        return;
-};
+		    case 1:
+		        redBull = 2;
+		        break;
+		    case 2:
+		        redBull = 4;
+		        break;
+			case 3:
+		        redBull = 6;
+		        break;
+			case 4:
+		        redBull = 8;
+		        break;
+		    default:
+		        return;
+		};
+		
+		switch(parseInt(gunpowderLevel)) {
+		    case 1:
+		        shootingpowerFactor = 20;
+		        break;
+		    case 2:
+		        shootingpowerFactor = 40;
+		        break;
+			case 3:
+		        shootingpowerFactor = 60;
+		        break;
+			case 4:
+		        shootingpowerFactor = 80;
+		        break;
+		    default:
+		        return;
+		};
 		
 		switch(parseInt(powerbarLevel)) {
-    case 1:
-        powerbarFactor = 25;
-        break;
-    case 2:
-        powerbarFactor = 50;
-        break;
-	case 3:
-        powerbarFactor = 75;
-        break;
-	case 4:
-        powerbarFactor = 100;
-        break;
-    default:
-        return;
-};
-		
+		    case 1:
+		        powerbarFactor = 25;
+		        break;
+		    case 2:
+		        powerbarFactor = 50;
+		        break;
+			case 3:
+		        powerbarFactor = 75;
+		        break;
+			case 4:
+		        powerbarFactor = 100;
+		        break;
+		    default:
+		        return;
+		};
+
+
 		
 
 		var canvas = document.getElementById("gameCanvas");
@@ -106,7 +108,30 @@
 		hud.redBull.text = "RedBull: " + redBull;
 
 		scaleFactor = physics.stage.canvas.height/1242;
-		addBackground(10, ["img/Home.png", "img/Levels.png", "img/defaultBG.png", "img/Home.png"]);
+		
+
+		level = parseInt(getUrlVars()['level']);
+		switch(level) {
+			case 2: 
+				console.log("level2");
+				addBackground(10, ["img/Aalst.png", "img/Levels.png", "img/defaultBG.png", "img/Airport.png"]);
+				break;
+
+			case 3:
+				console.log("level3");
+				addBackground(10, ["img/Airport.png", "img/Levels.png", "img/defaultBG.png", "img/crash.png"]);
+				break;
+
+			case 4:
+				console.log("level4");
+				addBackground(10, ["img/crash.png", "img/defaultJungleBG1.png", "img/defaultJungleBG2.png", "img/Rio.png"]);
+				break;
+
+			default:
+				console.log("level1 or not specified");
+				addBackground(10, ["img/Home.png", "img/Levels.png", "img/defaultBG.png", "img/Aalst.png"]);
+				break;
+		}
 		
 		physics.stage.addChild(multiplier, cannon, hud);
 		playSound(samba_rio);
@@ -114,6 +139,14 @@
 		multiplier.start();
 
 		requestAnimationFrame(gameLoop);
+	}
+
+	function getUrlVars() {
+	    var vars = {};
+	    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+	        vars[key] = value;
+	    });
+	    return vars;
 	}
 
 	var bgSize = {
@@ -339,7 +372,7 @@
 				}
 
 				/** Adds obstacles to random places on screen **/
-				if ( !gameOver && Math.floor((Math.random() * 3500) + 1) == 1) {
+				if ( !gameOver && Math.floor((Math.random() * 1000) + 1) == 1) {
 					// console.log("Add obstacle");
 
 					// console.log("STAGE CANVAS Width: " + physics.stage.canvas.width  + " Height: " + physics.stage.canvas.height);
@@ -413,11 +446,14 @@
 				// console.log(physics.stage.canvas.width, Math.abs(physics.stage.x));
 
 				hud.score.text = "Score: " + currentScore;
+
+
 				
 
 		    } else if ((nameA == "player" && nameB == "right_wall") || 
 		    			(nameA == "right_wall" && nameB == "player") ) {
 		    	console.log("PLAY END ANIMATION");
+		    	window.location = 'end.html?level=' + level + '&score=' + currentScore;
 		    }
 		}
 	}
