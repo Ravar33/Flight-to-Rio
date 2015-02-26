@@ -253,6 +253,12 @@ h1 {
 
 /* End of Current Level */
 
+/* Credits */
+#creditsText{
+    color: black;
+    margin-top: 1em;
+}
+
 
 /** End */
 
