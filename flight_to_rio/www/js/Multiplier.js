@@ -56,7 +56,7 @@
 		bg.graphics.beginFill("white").drawRect(this.consts.xOffset, 10, this.consts.barWidth, this.consts.stageHeight - 20);
 
 		var mover = new createjs.Shape();
-		mover.graphics.beginFill("indianred")
+		mover.graphics.beginFill("#6FBDEB")
 		moverCommand = mover.graphics.drawRect(this.consts.xOffset + 2, this.consts.mover.min, this.consts.barWidth - 4, -1 /*-this.consts.mover.max*/).command;
 
 		this.addChild(bg, mover);

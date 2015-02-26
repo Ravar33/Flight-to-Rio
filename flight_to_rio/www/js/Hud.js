@@ -25,7 +25,7 @@
 	p.setup = function() {
 
 		this.bg = new createjs.Shape();
-		this.bg.graphics.beginFill("indianred").drawRect(0, 0, 220, 40);
+		this.bg.graphics.beginFill("#b2b2b2").drawRect(0, 0, 220, 40);
 
 		this.score = new createjs.Text("Score: 0", "15px HelveticaNeue", "white");
 
