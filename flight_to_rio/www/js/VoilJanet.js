@@ -23,19 +23,12 @@
 
 	p.setup = function() {
 
-		this.player = new createjs.Shape();
-		this.player.graphics.beginFill("orange").drawRect(0, 0, 20, 20);
-		this.player.regX = 10;
-		this.player.regY = 10;
-
-		/*** JUST AS AN EXAMPLE ***/
-		this.player.graphics.beginFill("black").drawRect(-5, 15, 30, 40);
-		this.player.graphics.beginFill("black").drawRect(-5, 55, 10, 30);
-		this.player.graphics.beginFill("black").drawRect(15, 55, 10, 30);
-		this.player.graphics.beginFill("black").drawRect(-5, 15, -20, 10);
-		this.player.graphics.beginFill("black").drawRect(25, 15, 20, 10);
-		this.player.regY = 65;
-		/*** JUST AS AN EXAMPLE ***/
+		this.player = new createjs.Bitmap("img/player.png");
+		this.player.regX = 20;
+		this.player.regY = 70;
+		this.player.x = 0;
+		this.player.y = 0;
+		this.player.scaleX = this.player.scaleY = 1.0;
 
 		this.addChild(this.player);
 	};

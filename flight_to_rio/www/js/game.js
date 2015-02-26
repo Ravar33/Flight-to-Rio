@@ -17,6 +17,7 @@
 		frameNeedsToMove = false;
 		gameOver = false;
 		currentScore = 0;
+
 		switch(parseInt(redBullLevel)) {
 		    case 1:
 		        redBull = 2;
@@ -68,9 +69,6 @@
 		        return;
 		};
 
-
-		
-
 		var canvas = document.getElementById("gameCanvas");
 		canvas.width = $(window).width();
 		canvas.height = $(window).height();
@@ -93,9 +91,11 @@
 		if ( createjs.Touch.isSupported() ) createjs.Touch.enable(physics.stage);
 
 		new Body(physics, { type: "static", x: canvas.width/2/scale, y: -10/scale, height: 10/scale,  width: canvas.width*10, name:"ceiling" });
+	    
 	    var ground = new Body(physics, { type: "static", x: canvas.width/2/scale, y: canvas.height/scale, height: 10/scale,  width: canvas.width*10, name:"floor" });
-	    ground.body.name = "ground";
 	    	/** Cranked up width to prevent voilJanet hitting no ground on an large throw **/
+	    ground.body.name = "ground";
+
 	    new Body(physics, { type: "static", x: 0, y: canvas.height/2/scale, height: canvas.height/scale, width: 10/scale, name: "left_wall" });
 
 		multiplier = new Multiplier(physics.stage.canvas.width, physics.stage.canvas.height, 10, 20, powerbarFactor); 
@@ -114,17 +114,17 @@
 		switch(level) {
 			case 2: 
 				console.log("level2");
-				addBackground(10, ["img/Aalst.png", "img/Levels.png", "img/defaultBG.png", "img/Airport.png"]);
+				addBackground(13, ["img/Aalst.png", "img/Levels.png", "img/defaultBG.png", "img/Airport.png"]);
 				break;
 
 			case 3:
 				console.log("level3");
-				addBackground(10, ["img/Airport.png", "img/Levels.png", "img/defaultBG.png", "img/crash.png"]);
+				addBackground(15, ["img/Airport.png", "img/Levels.png", "img/defaultBG.png", "img/crash.png"]);
 				break;
 
 			case 4:
 				console.log("level4");
-				addBackground(10, ["img/crash.png", "img/defaultJungleBG1.png", "img/defaultJungleBG2.png", "img/Rio.png"]);
+				addBackground(19, ["img/crash.png", "img/defaultJungleBG1.png", "img/defaultJungleBG2.png", "img/Rio.png"]);
 				break;
 
 			default:
@@ -155,14 +155,21 @@
 	}
 
 	function addBackground(quantity, imgPathArray) {
+		quantity = Math.max(quantity, 3);
 		for (var i = 0; i < quantity; i++) {
 			var bitmap;
 			if (i == 0) bitmap = new createjs.Bitmap(imgPathArray[0]);
 			else {
 				if (i == quantity - 1) {
 					bitmap = new createjs.Bitmap(imgPathArray[imgPathArray.length-1]);
-					var rightWall = new Body(physics, { type: "static", x: ((scaleFactor * 2258 * i - (20*i)) + physics.stage.canvas.width/2)/scale, y: physics.stage.canvas.height/2/scale, height: physics.stage.canvas.height/scale, width: 10/scale, name: "end_wall" });
+					var rightWall = new Body(physics, { type: "static", x: ((scaleFactor * 2258 * i - (20*i)) + physics.stage.canvas.width/4)/scale, y: physics.stage.canvas.height/2/scale, height: physics.stage.canvas.height/scale, width: 10/scale, name: "end_wall" });
 					rightWall.body.name = "right_wall";
+
+					var fixGapBitmap = new createjs.Bitmap(imgPathArray[1]);
+					j = i + 1;
+					fixGapBitmap.x = scaleFactor * 2258 * j - (20 * j);
+					fixGapBitmap.scaleX = fixGapBitmap.scaleY = scaleFactor;
+					physics.stage.addChild(fixGapBitmap);	
 				}
 				else {
 					var randomImgPathIndex = Math.floor((Math.random() * (imgPathArray.length - 2)) + 1);
@@ -221,7 +228,7 @@
 
 			physics.stage.addChild(voilJanet);
 
-			b2voilJanet = new Body(physics, { x:location.x/scale, y:location.y/scale, shape:"block", width:2, height:4, name:"ball", friction:0.1});				
+			b2voilJanet = new Body(physics, { x:location.x/scale, y:location.y/scale, shape:"block", width:3, height:4, name:"ball", friction:2, linearDamping:0});				
 			b2voilJanet.body.name = "player";
 			
 			/** Multiplies current height of powerbar with param **/
@@ -266,7 +273,7 @@
 	function doImpulseToPlayer() {
 
 		var angle = -20 * degToRad;
-		var impulse = 3000;
+		var impulse = 3700;
 
 		var vector = new b2Vec2( Math.cos(angle) * impulse, Math.sin(angle) * impulse );
 
@@ -341,13 +348,14 @@
 				prevX = voilJanet.player.x;
 
 				/** Adds trampoline only if stage is moving **/
-				if ( !gameOver && Math.floor((Math.random() * 500) + 1) == 1) {
-					// console.log("Add trampoline");
+				if ( !gameOver && Math.floor((Math.random() * 800) + 1) == 1) {
+
+					console.log("Add trampoline");
 
 					// console.log("STAGE CANVAS Width: " + physics.stage.canvas.width  + " Height: " + physics.stage.canvas.height);
 
 					var trampolineBounds = {
-						"x": physics.stage.canvas.width + Math.abs(physics.stage.x),
+						"x": physics.stage.canvas.width + Math.abs(physics.stage.x) + 200,
 						"y": physics.stage.canvas.height - 45/2,
 						"width": 472/2,
 						"height": 90/2
@@ -372,7 +380,8 @@
 				}
 
 				/** Adds obstacles to random places on screen **/
-				if ( !gameOver && Math.floor((Math.random() * 1000) + 1) == 1) {
+				if ( !gameOver && Math.floor((Math.random() * 1200) + 1) == 1) {
+
 					// console.log("Add obstacle");
 
 					// console.log("STAGE CANVAS Width: " + physics.stage.canvas.width  + " Height: " + physics.stage.canvas.height);
@@ -401,8 +410,6 @@
 			if (!gameOver) hud.score.text = "Score: " + currentScore;
 
 			currentScore = Math.round(voilJanet.player.x/10);
-
-
 		}	
 	};
 	
@@ -412,27 +419,29 @@
 
 	b2ContactListener.prototype.BeginContact = function (contact) {
 
-	    var nameB = contact.GetFixtureB().GetBody().name;
-	    var nameA = contact.GetFixtureA().GetBody().name;
-	    
-	    if (!gameOver) {
-		    if ((nameA == "player" && nameB == "trampoline") || 
-		    	(nameA == "trampoline" && nameB == "player") ) {
+		if (!gameOver) {
+
+		    var nameB = contact.GetFixtureB().GetBody().name;
+		    var nameA = contact.GetFixtureA().GetBody().name;
+
+		    var playerHitTrampoline = (nameA == "player" && nameB == "trampoline") || (nameA == "trampoline" && nameB == "player");
+		    var playerHitGround = (nameA == "player" && nameB == "ground") || (nameA == "ground" && nameB == "player");
+		    var playerHitObstacle = (nameA == "player" && nameB == "obstacle") || (nameA == "obstacle" && nameB == "player");
+		    var playerHitEnd = (nameA == "player" && nameB == "right_wall") || (nameA == "right_wall" && nameB == "player");
+
+		    if (playerHitTrampoline) {
 
 		        console.log("Jump on trampoline");
 		    	
 		    	doImpulseToPlayer();
 
-		    } else if ((nameA == "player" && nameB == "ground") || 
-		       		   (nameA == "ground" && nameB == "player")) 
-		       		    {
+		    } else if (playerHitGround || playerHitObstacle)  {
 
 		    	console.log("Game Over");
 					
 				gameOver = true;
-
 				multiplier.isLocked = true;
-				playSound(crowdaahh);
+
 				postMoney(parseInt(currentScore));
 
 				restartBtn = new createjs.Text("Game over!\n\nScore: " + currentScore + "\n\ntap anywhere to go back\n\ntotal Amount of money: " + amountOfMoney, "20px HelveticaNeue", "black");
@@ -446,37 +455,14 @@
 
 				hud.score.text = "Score: " + currentScore;
 
+				(playerHitGround) ? playSound(crowdaahh) : playSound(pain);
 
-				
+		    } else if (playerHitEnd) {
 
-		    } else if ((nameA == "player" && nameB == "right_wall") || 
-		    			(nameA == "right_wall" && nameB == "player") ) {
-		    	console.log("PLAY END ANIMATION");
+		    	console.log("Level done");
+
 		    	window.location = 'end.html?level=' + level + '&score=' + currentScore;
 		    }
-			else if((nameA == "player" && nameB == "obstacle") ||
-		       		   (nameA == "obstacle" && nameB == "player")){
-				console.log("Game Over");
-					
-				gameOver = true;
-
-				multiplier.isLocked = true;
-				
-				playSound(pain);
-				postMoney(parseInt(currentScore));
-
-				restartBtn = new createjs.Text("Game over!\n\nScore: " + currentScore + "\n\ntap anywhere to go back\n\ntotal Amount of money: " + amountOfMoney, "20px HelveticaNeue", "black");
-				restartBtn.textAlign = "center";
-				restartBtn.lineWidth = 400;
-				restartBtn.x = physics.stage.canvas.width/2 + Math.abs(physics.stage.x);
-				restartBtn.y = physics.stage.canvas.height/2 - restartBtn.getBounds().height/2;
-				physics.stage.addChild(restartBtn);
-
-				// console.log(physics.stage.canvas.width, Math.abs(physics.stage.x));
-
-				hud.score.text = "Score: " + currentScore;
-				
-			}
 		}
 	}
 

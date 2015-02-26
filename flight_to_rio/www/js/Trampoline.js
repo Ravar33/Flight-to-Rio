@@ -31,19 +31,16 @@
 		// this.trampoline.regX = this.consts.width/2;
 		// this.trampoline.regY = this.consts.height/2;
 
-		// this.addChild(this.trampoline);
-
-
 		var scaleFactor = Math.min(this.consts.width/115, this.consts.height/22);
 		
-		this.bitmap = new createjs.Bitmap("img/Trampoline.png");
-		this.bitmap.regX = 0;
-		this.bitmap.regY = this.consts.height/2 + 25;
-		this.bitmap.x = this.consts.x - this.consts.width/2;
-		this.bitmap.y = this.consts.y;
-		this.bitmap.scaleX = this.bitmap.scaleY = .5;
+		this.trampoline = new createjs.Bitmap("img/Trampoline.png");
+		this.trampoline.regX = 0;
+		this.trampoline.regY = this.consts.height/2;
+		this.trampoline.x = this.consts.x - this.consts.width/2 - 10;
+		this.trampoline.y = this.consts.y;
+		this.trampoline.scaleX = this.trampoline.scaleY = .5;
 		
-		this.addChild(this.bitmap);
+		this.addChild(this.trampoline);
 	};
 
 	window.Trampoline = createjs.promote(Trampoline, "Container");

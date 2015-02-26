@@ -19,7 +19,7 @@ var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 var b2ContactListener = Box2D.Dynamics.b2ContactListener;
 
 var Physics = window.Physics = function(element,scale) {
-    var gravity = new b2Vec2(0,20);
+    var gravity = new b2Vec2(0, 25);
     this.world = new b2World(gravity, true);
     this.element = element;
     this.context = element.getContext("2d");

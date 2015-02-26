@@ -253,23 +253,25 @@ h1 {
 
 /* End of Current Level */
 
-/* Credits */
+/** Credits */
+
 #creditsText{
     color: black;
     margin-top: 1em;
 }
 
+/* End of Creadits */
 
 /** End */
 
 #player {
     position: absolute;
-    width: 100px;
-    height: 100px;
-    z-index: 9999999;
-    background-color: red;
-    bottom: 500px;
-    left: calc(50% - 50px);
+    width: 40px;
+    height: 97px;
+    z-index: 10;
+    bottom: 600px;
+    left: 20%;
+    background: url("../img/player.png") no-repeat left top;
 }
 
 /* End of End */
