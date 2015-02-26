@@ -40,6 +40,12 @@ h1 {
     margin: 20px 0;
 }
 
+
+.strong
+{
+    font-weight: bold;
+}
+
 /** Welcome */
 
 .welcome {
@@ -122,6 +128,7 @@ h1 {
 
 .levels .overview a img {
     background-color: #F4A333;
+    border: solid black 2px;
     width: 100px;
     height: 100px;
 }
@@ -179,6 +186,7 @@ h1 {
 
 .upgrades .overview a img {
     background-color: #F4A333;
+    border: solid black 2px;
     width: 100px;
     height: 100px;
 }

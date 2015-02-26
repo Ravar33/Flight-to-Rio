@@ -35,14 +35,14 @@ clickedObject.addEventListener("click", function(evt)
     var explanation;
     switch(evt.target.alt)
     {
-        case "Upgrade 1":
-            explanation = "Some explanation about Upgrade 1";
+        case "Red Bull":
+            explanation = "Red Bull gives you wings!";
             break;
-        case "Upgrade 2":
-            explanation = "Some bla bla bla bla about Upgrade 2";
+        case "Gunpowder":
+            explanation = "Your cannon will be shooting much more powerful!";
             break;
-        case "Upgrade 3":
-            explanation = " Blaa blaa about Upgrade 3";
+        case "Power Bar":
+            explanation = "The power bar will reach even higher!";
             break;  
         default:
             explanation = "No information";
