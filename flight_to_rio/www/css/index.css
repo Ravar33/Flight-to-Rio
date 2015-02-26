@@ -219,6 +219,20 @@ h1 {
     margin-top: 10%;
 }
 
+#closeDescription
+{
+    z-index: 10;
+}
+
+#upgradeImg
+{
+    margin-top: 20px;
+}
+
+.buy {
+    margin-top: 5%;
+}
+
 /* End of Upgrades */
 
 /** Current Level */ 
