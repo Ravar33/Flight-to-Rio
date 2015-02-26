@@ -8,7 +8,7 @@
 
 (function() {
 
-	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, restartBtn, redBull, currentScore;
+	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, restartBtn, redBull, currentScore, scaleFactor;
 
 	var degToRad = Math.PI / 180;
 
@@ -41,8 +41,6 @@
 
 		if ( createjs.Touch.isSupported() ) createjs.Touch.enable(physics.stage);
 
-		
-
 		new Body(physics, { type: "static", x: canvas.width/2/scale, y: -10/scale, height: 10/scale,  width: canvas.width*10, name:"ceiling" });
 	    var ground = new Body(physics, { type: "static", x: canvas.width/2/scale, y: canvas.height/scale, height: 10/scale,  width: canvas.width*10, name:"floor" });
 	    ground.body.name = "ground";
@@ -58,12 +56,42 @@
 		hud = new Hud(physics.stage.canvas.width, physics.stage.canvas.height);
 		hud.redBull.text = "RedBull: " + redBull;
 
+		scaleFactor = physics.stage.canvas.height/1242;
+		addBackground(10, ["img/Home.png", "img/Levels.png", "img/defaultBG.png", "img/Home.png"]);
+		
 		physics.stage.addChild(multiplier, cannon, hud);
 		playSound("samba_rio");
 		
 		multiplier.start();
 
 		requestAnimationFrame(gameLoop);
+	}
+
+	var bgSize = {
+		"width": 2258,
+		"height": 1242,
+	}
+
+	function addBackground(quantity, imgPathArray) {
+		for (var i = 0; i < quantity; i++) {
+			var bitmap;
+			if (i == 0) bitmap = new createjs.Bitmap(imgPathArray[0]);
+			else {
+				if (i == quantity - 1) {
+					bitmap = new createjs.Bitmap(imgPathArray[imgPathArray.length-1]);
+					var rightWall = new Body(physics, { type: "static", x: ((scaleFactor * 2258 * i - (20*i)) + physics.stage.canvas.width/2)/scale, y: physics.stage.canvas.height/2/scale, height: physics.stage.canvas.height/scale, width: 10/scale, name: "end_wall" });
+					rightWall.body.name = "right_wall";
+				}
+				else {
+					var randomImgPathIndex = Math.floor((Math.random() * (imgPathArray.length - 2)) + 1);
+					bitmap = new createjs.Bitmap(imgPathArray[randomImgPathIndex]);
+				}
+
+				bitmap.x = scaleFactor * 2258 * i - (20*i);
+			}
+			bitmap.scaleX = bitmap.scaleY = scaleFactor;
+			physics.stage.addChild(bitmap);	
+		}
 	}
 
 	function mouseMove(event) {
@@ -333,6 +361,10 @@
 				// console.log(physics.stage.canvas.width, Math.abs(physics.stage.x));
 
 				hud.score.text = "Score: " + currentScore;
+
+		    } else if ((nameA == "player" && nameB == "right_wall") || 
+		    			(nameA == "right_wall" && nameB == "player") ) {
+		    	console.log("PLAY END ANIMATION");
 		    }
 		}
 	}
