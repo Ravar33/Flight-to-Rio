@@ -8,7 +8,7 @@
 
 (function() {
 
-	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, restartBtn, redBull, currentScore, scaleFactor;
+	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, restartBtn, redBull, currentScore, scaleFactor, shootingpowerFactor;
 
 	var degToRad = Math.PI / 180;
 
@@ -17,8 +17,40 @@
 		frameNeedsToMove = false;
 		gameOver = false;
 		currentScore = 0;
-
-		redBull = 5;
+		switch(parseInt(redBullLevel)) {
+    case 1:
+        redBull = 2;
+        break;
+    case 2:
+        redBull = 4;
+        break;
+	case 3:
+        redBull = 6;
+        break;
+	case 4:
+        redBull = 8;
+        break;
+    default:
+        return;
+};
+			switch(parseInt(gunpowderLevel)) {
+    case 1:
+        shootingpowerFactor = 20;
+        break;
+    case 2:
+        shootingpowerFactor = 40;
+        break;
+	case 3:
+        shootingpowerFactor = 60;
+        break;
+	case 4:
+        shootingpowerFactor = 80;
+        break;
+    default:
+        return;
+};
+		
+		
 
 		var canvas = document.getElementById("gameCanvas");
 		canvas.width = $(window).width();
@@ -143,7 +175,7 @@
 			b2voilJanet.body.name = "player";
 			
 			/** Multiplies current height of powerbar with param **/
-			var Shootingpower = multiplier.ReturnPowerLevel(40); 
+			var Shootingpower = multiplier.ReturnPowerLevel(shootingpowerFactor); 
 			// console.log("Shootingpower: " + Shootingpower);
 			
 			b2voilJanet.body.ApplyImpulse( new b2Vec2(	Math.cos(angle * (Math.PI / 180)) * Shootingpower,
@@ -257,7 +289,7 @@
 				prevX = voilJanet.player.x;
 
 				/** Adds trampoline only if stage is moving **/
-				if ( !gameOver && Math.floor((Math.random() * 600) + 1) == 1) {
+				if ( !gameOver && Math.floor((Math.random() * 500) + 1) == 1) {
 					// console.log("Add trampoline");
 
 					// console.log("STAGE CANVAS Width: " + physics.stage.canvas.width  + " Height: " + physics.stage.canvas.height);
