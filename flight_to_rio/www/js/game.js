@@ -8,7 +8,7 @@
 
 (function() {
 
-	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, restartBtn, redBull, currentScore, scaleFactor, shootingpowerFactor;
+	var physics, multiplier, cannon, hud, scale, voilJanet, b2voilJanet, angle, frameNeedsToMove, gameOver, gameOverTxt, restartBtn, redBull, currentScore, scaleFactor, shootingpowerFactor, powerbarFactor;
 
 	var degToRad = Math.PI / 180;
 
@@ -50,6 +50,23 @@
         return;
 };
 		
+		switch(parseInt(powerbarLevel)) {
+    case 1:
+        powerbarFactor = 25;
+        break;
+    case 2:
+        powerbarFactor = 50;
+        break;
+	case 3:
+        powerbarFactor = 75;
+        break;
+	case 4:
+        powerbarFactor = 100;
+        break;
+    default:
+        return;
+};
+		
 		
 
 		var canvas = document.getElementById("gameCanvas");
@@ -79,7 +96,7 @@
 	    	/** Cranked up width to prevent voilJanet hitting no ground on an large throw **/
 	    new Body(physics, { type: "static", x: 0, y: canvas.height/2/scale, height: canvas.height/scale, width: 10/scale, name: "left_wall" });
 
-		multiplier = new Multiplier(physics.stage.canvas.width, physics.stage.canvas.height, 10, 20, 40); 
+		multiplier = new Multiplier(physics.stage.canvas.width, physics.stage.canvas.height, 10, 20, powerbarFactor); 
 			// PARAMS MULTIPLIER: stageWidth, stageHeight, xOffset, barWidth, maxPercentage 
 
 		cannon = new Cannon(physics.stage.canvas.width, physics.stage.canvas.height, 50, 10);
