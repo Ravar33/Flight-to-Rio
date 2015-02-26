@@ -424,9 +424,8 @@
 		    	doImpulseToPlayer();
 
 		    } else if ((nameA == "player" && nameB == "ground") || 
-		       		   (nameA == "ground" && nameB == "player") ||
-		       		   (nameA == "player" && nameB == "obstacle") ||
-		       		   (nameA == "obstacle" && nameB == "player")) {
+		       		   (nameA == "ground" && nameB == "player")) 
+		       		    {
 
 		    	console.log("Game Over");
 					
@@ -455,6 +454,29 @@
 		    	console.log("PLAY END ANIMATION");
 		    	window.location = 'end.html?level=' + level + '&score=' + currentScore;
 		    }
+			else if((nameA == "player" && nameB == "obstacle") ||
+		       		   (nameA == "obstacle" && nameB == "player")){
+				console.log("Game Over");
+					
+				gameOver = true;
+
+				multiplier.isLocked = true;
+				
+				playSound(pain);
+				postMoney(parseInt(currentScore));
+
+				restartBtn = new createjs.Text("Game over!\n\nScore: " + currentScore + "\n\ntap anywhere to go back\n\ntotal Amount of money: " + amountOfMoney, "20px HelveticaNeue", "black");
+				restartBtn.textAlign = "center";
+				restartBtn.lineWidth = 400;
+				restartBtn.x = physics.stage.canvas.width/2 + Math.abs(physics.stage.x);
+				restartBtn.y = physics.stage.canvas.height/2 - restartBtn.getBounds().height/2;
+				physics.stage.addChild(restartBtn);
+
+				// console.log(physics.stage.canvas.width, Math.abs(physics.stage.x));
+
+				hud.score.text = "Score: " + currentScore;
+				
+			}
 		}
 	}
 
