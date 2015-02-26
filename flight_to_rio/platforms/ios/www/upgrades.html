@@ -25,21 +25,28 @@
 
 
                 <div class="overview" id="upgrade">
-                    <a onclick="return false" href="">
-                        <img src="" alt="Upgrade 1">
+                    <a onclick="Upgrade(1);" href="#">
+                        <img src="" alt="GunPowder">
+                        <p id="gunpowderlevelshower">Level: 1</p>
                     </a>
-                    <a onclick="return false" href="">
-                        <img src="" alt="Upgrade 2">
+                    <a onclick="Upgrade(2);" href="#">
+                        <img src="" alt="RedBull">
+                        <p id="redbulllevelshower">Level: 1</p>
                     </a>
-                    <a onclick="return false" href="">
-                        <img src="" alt="Upgrade 3">
+                    <a onclick="Upgrade(3);" href="#">
+                        <img src="" alt="PowerBar">
+                        <p id="powerbarlevelshower">Level: 1</p>
                     </a>
                 </div>
+                <div id="amountofmoneyshower">Here comes amount of money</div>
+                
 
                 <br>
-                <div class="back">
-                    <a href="index.html"> Back </a>
-                </div>
+                 <a href="index.html"> <div class="back">
+                    Back 
+                </div> </a>
+                <a href="#" onclick="resetall()"><div class="back">Reset Everything</div></a>
+                <a href="#" onclick="givemoney()"><div class="back">Give Money</div></a>
 
                 <img src="img/Levels.png" alt="background image" class="background" />
             </div> <!-- end of levels --> <!-- end of upgrades -->
@@ -47,8 +54,14 @@
 
         <script type="text/javascript" src="js/vendor/createjs.min.js"></script>
         <script type="text/javascript" src="js/vendor/jquery-2.1.3.min.js"></script>
+        <script type="text/javascript" src="js/upgrades.js"></script>
+        <audio src='sounds/sambas/samba_side_menus.mp3' id='samba_side_menu'>
+        <script type="text/javascript" src="js/sounds.js"></script>
+        <script>playSound("samba_side_menu");</script>
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        
+        
     </body>
 </html>

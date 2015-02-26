@@ -40,6 +40,12 @@ h1 {
     margin: 20px 0;
 }
 
+
+.strong
+{
+    font-weight: bold;
+}
+
 /** Welcome */
 
 .welcome {
@@ -122,6 +128,7 @@ h1 {
 
 .levels .overview a img {
     background-color: #F4A333;
+    border: solid black 2px;
     width: 100px;
     height: 100px;
 }
@@ -179,6 +186,7 @@ h1 {
 
 .upgrades .overview a img {
     background-color: #F4A333;
+    border: solid black 2px;
     width: 100px;
     height: 100px;
 }
@@ -222,7 +230,7 @@ h1 {
     
     top: 0; right: 0; bottom: 0; left: 0;
     
-    background-color: gold;
+    background-color: #6FBDEB;
 }
 
 /* End of Current Level */

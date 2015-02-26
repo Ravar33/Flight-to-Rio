@@ -35,17 +35,26 @@ clickedObject.addEventListener("click", function(evt)
     var explanation;
     switch(evt.target.alt)
     {
-        case "Upgrade 1":
-            explanation = "Some explanation about Upgrade 1";
+       case "GunPowder":
+            if(gunpowderLevel < 4 && parseInt(amountOfMoney) > 10000){
+                explanation = "Gun Powder upgraded to level: " + gunpowderLevel;
+            }
+            else{explanation = "You have achieved the maximum level of 4 or you do not have 10000 money"}
             break;
-        case "Upgrade 2":
-            explanation = "Some bla bla bla bla about Upgrade 2";
+        case "PowerBar":
+            if(powerbarLevel < 4 && parseInt(amountOfMoney) > 30000){
+                explanation = "PowerBar upgraded to level: " + powerbarLevel;
+            }
+            else{explanation = "You have achieved the maximum level of 4 or you do not have 30000 money"}
             break;
-        case "Upgrade 3":
-            explanation = " Blaa blaa about Upgrade 3";
+        case "RedBull":
+            if(redBullLevel < 4 && parseInt(amountOfMoney) > 20000){
+                explanation = "RedBull upgraded to level: " + redBullLevel;
+            }
+           else{explanation = "You have achieved the maximum level of 4 or you do not have 20000 money"}
             break;  
         default:
-            explanation = "No information";
+            explanation = "Nothing to see here";
             break;
     }
 
