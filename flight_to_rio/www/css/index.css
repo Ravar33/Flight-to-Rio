@@ -64,15 +64,12 @@ h1 {
 .welcome .buttons a {
     margin-right: 20px;
     padding: 20px;
-
     text-align: center;
     text-transform: uppercase;
     font-weight: 900;
     color: black;
     font-size: 1.5em;
-
     background-color: #F4A333;
-
     display: inline;
     float: left;
 }
@@ -91,12 +88,10 @@ h1 {
 
 .background {
     /*background-color: orange;*/
-
     width: 100%;
     height: 100%;
     position: absolute;
     z-index: -99;
-
     top: 0; right: 0; bottom: 0; left: 0;
 }
 
@@ -117,10 +112,8 @@ h1 {
     width: 100px;
     height: auto;
     margin-right: 20px;
-
     display: inline;
     float: left;
-
     color: black;
 }
 
@@ -177,10 +170,8 @@ h1 {
     width: 100px;
     height: auto;
     margin-right: 20px;
-
     display: inline;
     float: left;
-
     color: black;
 }
 
@@ -213,7 +204,6 @@ h1 {
     width: 400px;
     height: 150px;
     padding: 1%;
-
     visibility: hidden;
 }
 
@@ -245,9 +235,7 @@ h1 {
     position: absolute;
     width: 100%;
     height: 100%;
-    
     top: 0; right: 0; bottom: 0; left: 0;
-    
     background-color: #6FBDEB;
 }
 
@@ -275,6 +263,3 @@ h1 {
 }
 
 /* End of End */
-
-
-

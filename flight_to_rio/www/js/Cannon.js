@@ -52,7 +52,7 @@
 		shooterBitmap.x = this.consts.xOffset + 20;
 		shooterBitmap.y = this.consts.stageHeight - this.consts.yBottomOffset - 20;
 		shooterBitmap.scaleX = shooterBitmap.scaleY = .5;
-
+		
 		shooterHandle = {
 			"x": shooter.x,
 			"y": shooter.y
